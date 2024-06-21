@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Card</title>
+    <style>
+        body {
+            background-color: lightgray;
+        }
+        .bingo-card {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+        }
+        .bingo-cell {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .color-red {
+            background-color: lightcoral;
+        }
+        .color-blue {
+            background-color: lightblue;
+        }
+        .color-default {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="color-red">Red</button>
+        <button id="color-blue">Blue</button>
+        <button id="color-default">Default</button>
+    </div>
+    <div id="bingo-card" class="bingo-card"></div>
+
+    <div>
+        <h3>2-Hour Timer</h3>
+        <div id="two-hour-timer">02:00:00</div>
+        <button id="two-hour-start">Start</button>
+        <button id="two-hour-pause">Pause</button>
+        <button id="two-hour-reset">Reset</button>
+    </div>
+
+    <div>
+        <h3>5-Minute Timer</h3>
+        <div id="five-minute-timer">00:05:00</div>
+        <button id="five-minute-start">Start</button>
+        <button id="five-minute-pause">Pause</button>
+        <button id="five-minute-reset">Reset</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const hardcodedCard = [
+            "B1", "B2", "B3", "B4", "B5",
+            "I1", "I2", "I3", "I4", "I5",
+            "N1", "N2", "FREE", "N4", "N5",
+            "G1", "G2", "G3", "G4", "G5",
+            "O1", "O2", "O3", "O4", "O5"
+        ];
+
+        let selectedColor = '';
+
+        function createCard() {
+            const card = document.getElementById('bingo-card');
+            hardcodedCard.forEach((value, index) => {
+                const cell = document.createElement('div');
+                cell.classList.add('bingo-cell');
+                cell.textContent = value;
+                cell.dataset.index = index;
+                cell.addEventListener('click', () => {
+                    if (selectedColor) {
+                        socket.emit('markCell', { index, color: selectedColor });
+                    }
+                });
+                card.appendChild(cell);
+            });
+        }
+
+        socket.on('initialize', (data) => {
+            data.bingoCardState.forEach((color, index) => {
+                const cell = document.querySelector(`[data-index="${index}"]`);
+                if (color) {
+                    cell.className = `bingo-cell ${color}`;
+                }
+            });
+            updateTwoHourTimer(data.twoHourTime);
+            updateFiveMinuteTimer(data.fiveMinuteTime);
+        });
+
+        socket.on('cellMarked', (data) => {
+            const cell = document.querySelector(`[data-index="${data.index}"]`);
+            cell.className = `bingo-cell ${data.color}`;
+        });
+
+        socket.on('updateTwoHourTimer', (time) => {
+            twoHourTime = time;
+            updateTwoHourTimer();
+        });
+
+        socket.on('updateFiveMinuteTimer', (time) => {
+            fiveMinuteTime = time;
+            updateFiveMinuteTimer();
+        });
+
+        createCard();
+
+        document.getElementById('color-red').addEventListener('click', () => {
+            selectedColor = 'color-red';
+        });
+
+        document.getElementById('color-blue').addEventListener('click', () => {
+            selectedColor = 'color-blue';
+        });
+
+        document.getElementById('color-default').addEventListener('click', () => {
+            selectedColor = 'color-default';
+        });
+
+        let twoHourInterval;
+        let twoHourTime = 7200; // 2 hours in seconds
+
+        function updateTwoHourTimer() {
+            const hours = Math.floor(twoHourTime / 3600);
+            const minutes = Math.floor((twoHourTime % 3600) / 60);
+            const seconds = twoHourTime % 60;
+            document.getElementById('two-hour-timer').textContent =
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        document.getElementById('two-hour-start').addEventListener('click', () => {
+            socket.emit('startTwoHourTimer');
+        });
+
+        document.getElementById('two-hour-pause').addEventListener('click', () => {
+            socket.emit('pauseTwoHourTimer');
+        });
+
+        document.getElementById('two-hour-reset').addEventListener('click', () => {
+            socket.emit('resetTwoHourTimer');
+        });
+
+        let fiveMinuteInterval;
+        let fiveMinuteTime = 300; // 5 minutes in seconds
+
+        function updateFiveMinuteTimer() {
+            const minutes = Math.floor(fiveMinuteTime / 60);
+            const seconds = fiveMinuteTime % 60;
+            document.getElementById('five-minute-timer').textContent =
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        document.getElementById('five-minute-start').addEventListener('click', () => {
+            socket.emit('startFiveMinuteTimer');
+        });
+
+        document.getElementById('five-minute-pause').addEventListener('click', () => {
+            socket.emit('pauseFiveMinuteTimer');
+        });
+
+        document.getElementById('five-minute-reset').addEventListener('click', () => {
+            socket.emit('resetFiveMinuteTimer');
+        });
+
+        updateTwoHourTimer();
+        updateFiveMinuteTimer();
+    </script>
+</body>
+</html>
