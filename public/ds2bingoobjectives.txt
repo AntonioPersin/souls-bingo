@@ -1,0 +1,58 @@
+aquire 6 different sorceries
+aquire 6 different pyromancies
+aquire 6 different miracles
+aquire 6 different dark spells
+kill Forlorn
+kill Flexile Sentry
+kill Old Dragonslayer
+kill Executioner's Chariot
+kill Belfry Gargoyles
+kill a Royal Rat boss
+aquire 3 key items
+aquire 8 different rings
+kill 2 pursuers
+aquire 3 different greatswords
+aquire 3 different daggers
+aquire 3 different straightswords
+aquire 3 different curved swords
+aquire 3 different axes
+aquire 3 different hammers
+aquire 3 different spears
+kill 4 NPCs
+kill Duke's Dear Freya
+kill Lost Sinner
+kill Old Iron King
+kill Rotten
+have 40 STR (no respecs)
+have 40 DEX (no respecs)
+have 40 FAI (no respecs)
+have 40 INT (no respecs)
+parry pursuer 3 times in a single fight
+reach level 60
+reach doors of pharros
+reach huntsman's corpse
+join way of the blue
+join company of champions
+join rat king covenant
+join blue sentinels
+join brotherhood of blood
+join bell keepers
+sell 3 different chest armors to gavlan
+sell 3 different leg armors to gavlan
+sell 3 different helmets to gavlan
+sell 3 different gauntlets to gavlan
+kill a boss on NG+ (bonfire esthetic)
+use a genderbender coffin in the tutorial
+upgrade estus flask to +4
+upgrade a standard weapon to +6
+upgrade a standard weapon to +3
+upgrade a twinkling/boss weapon to +2
+discard 3 estus shards
+aquire 3 new gestures
+kill 3 NPC invaders
+aquire Elite Knight armor set
+aquire Knight armor set
+aquire Havel's armor set
+aquire Dragleic armor set
+aquire 4 different types of arrows
+kill a boss fist/claw/dagger only

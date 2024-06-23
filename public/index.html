@@ -14,9 +14,11 @@
             gap: 5px;
         }
         .bingo-cell {
-            width: 50px;
-            height: 50px;
+            font-size: 20px;
+            width: 90%;
+            height: 120px;
             border: 1px solid #000;
+            padding: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -38,23 +40,28 @@
         <button id="color-red">Red</button>
         <button id="color-blue">Blue</button>
         <button id="color-default">Default</button>
+        <h3 style="display:inline;">Seed: pending...</h3>
     </div>
     <div id="bingo-card" class="bingo-card"></div>
 
-    <div>
-        <h3>2-Hour Timer</h3>
-        <div id="two-hour-timer">02:00:00</div>
-        <button id="two-hour-start">Start</button>
-        <button id="two-hour-pause">Pause</button>
-        <button id="two-hour-reset">Reset</button>
-    </div>
+    <table rows="1" columns="2" style="width:100%">
+        <tr>
+            <td>
+                <h3>2-Hour Timer</h3>
+                <div id="two-hour-timer">02:00:00</div>
+                <button id="two-hour-start">Start</button>
+                <button id="two-hour-pause">Pause</button>
+                <button id="two-hour-reset">Reset</button>
+            </td>
 
-    <div>
-        <h3>5-Minute Timer</h3>
-        <div id="five-minute-timer">00:05:00</div>
-        <button id="five-minute-start">Start</button>
-        <button id="five-minute-pause">Pause</button>
-        <button id="five-minute-reset">Reset</button>
+            <td>
+                <h3>5-Minute Timer</h3>
+                <div id="five-minute-timer">00:05:00</div>
+                <button id="five-minute-start">Start</button>
+                <button id="five-minute-pause">Pause</button>
+                <button id="five-minute-reset">Reset</button>
+            </td>
+        </tr>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -62,12 +69,40 @@
         const socket = io();
 
         const hardcodedCard = [
-            "B1", "B2", "B3", "B4", "B5",
-            "I1", "I2", "I3", "I4", "I5",
-            "N1", "N2", "FREE", "N4", "N5",
-            "G1", "G2", "G3", "G4", "G5",
-            "O1", "O2", "O3", "O4", "O5"
+            "pending...", "pending...", "pending...", "pending...", "pending...",
+            "pending...", "pending...", "pending...", "pending...", "pending...",
+            "pending...", "pending...", "pending...", "pending...", "pending...",
+            "pending...", "pending...", "pending...", "pending...", "pending...",
+            "pending...", "pending...", "pending...", "pending...", "pending..."
         ];
+
+        /*const hardcodedCard = [
+            "upgrade a standard weapon to +3",
+            "use a genderbender coffin in the tutorial",
+            "upgrade estus flask to +4",
+            "aquire 3 different straightswords",
+            "kill Royal Rat boss",
+            "reach level 60",
+            "kill a boss fist/claw/dagger only",
+            "kill Forlorn",
+            "aquire 3 new gestures",
+            "have 40 INT (no respecs)",
+            "aquire 4 different types of arrows",
+            "kill 2 pursuers",
+            "kill a boss on NG+ (bonfire esthetic)",
+            "parry pursuer 3 times in a single fight",
+            "kill 3 NPC invaders",
+            "aquire Elite Knight armor set",
+            "join brotherhood of blood",
+            "sell 3 different chest armors to gavlan",
+            "kill Lost Sinner",
+            "aquire 6 different dark spells",
+            "aquire 3 key items",
+            "aquire 8 different rings",
+            "kill 4 NPCs",
+            "kill Flexile Sentry",
+            "reach huntsman's corpse"
+        ]*/
 
         let selectedColor = '';
 
